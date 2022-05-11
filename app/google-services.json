@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "835698135663",
+    "project_id": "parken-bacd8",
+    "storage_bucket": "parken-bacd8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:835698135663:android:2c1c2758eed3f88b4c339a",
+        "android_client_info": {
+          "package_name": "com.himanshu.parken"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "835698135663-p0dj1a11r2k35fqklsrv96jvmsjjf86h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuw8RYsAGF6pYEeksbAVZsOgM0N8N0a9k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "835698135663-p0dj1a11r2k35fqklsrv96jvmsjjf86h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
