@@ -7,7 +7,7 @@
     tools:context=".LoginActivity">
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/imageView_signin_logo"
         android:layout_width="147dp"
         android:layout_height="217dp"
         android:layout_marginTop="25dp"
@@ -21,7 +21,7 @@
         app:srcCompat="@drawable/parken_logo" />
 
     <TextView
-        android:id="@+id/textViewSigninEmail"
+        android:id="@+id/textView_signin_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -38,7 +38,7 @@
         tools:ignore="TextContrastCheck" />
 
     <EditText
-        android:id="@+id/editTextSigninEmail"
+        android:id="@+id/editText_signin_email"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginStart="30dp"
@@ -51,8 +51,8 @@
         android:textColorHint="#757575"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/textViewSigninEmail"
-        app:layout_constraintTop_toBottomOf="@+id/textViewSigninEmail" />
+        app:layout_constraintStart_toStartOf="@+id/textView_signin_email"
+        app:layout_constraintTop_toBottomOf="@+id/textView_signin_email" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -62,7 +62,7 @@
         app:layout_constraintGuide_begin="321dp" />
 
     <TextView
-        android:id="@+id/textViewSigninPassword"
+        android:id="@+id/textView_signin_password"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -74,10 +74,10 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextSigninEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_signin_email" />
 
     <EditText
-        android:id="@+id/editTextSigninPassword"
+        android:id="@+id/editText_signin_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -90,11 +90,11 @@
         android:minHeight="48dp"
         android:textColorHint="#757575"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textViewSigninPassword"
-        app:layout_constraintTop_toBottomOf="@+id/textViewSigninPassword" />
+        app:layout_constraintStart_toStartOf="@+id/textView_signin_password"
+        app:layout_constraintTop_toBottomOf="@+id/textView_signin_password" />
 
     <Button
-        android:id="@+id/buttonSignIn"
+        android:id="@+id/button_signin_signin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
@@ -110,24 +110,24 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextSigninPassword"
+        app:layout_constraintTop_toBottomOf="@+id/editText_signin_password"
         tools:ignore="DuplicateSpeakableTextCheck" />
 
     <TextView
-        android:id="@+id/textViewLogin"
+        android:id="@+id/textView_signin_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="@string/sign_in"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
-        app:layout_constraintEnd_toEndOf="@+id/imageView2"
-        app:layout_constraintStart_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="@+id/imageView_signin_logo"
+        app:layout_constraintStart_toStartOf="@+id/imageView_signin_logo"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_signin_logo"
         app:layout_constraintVertical_bias="0.0" />
 
     <ProgressBar
-        android:id="@+id/progressBarSignin"
+        android:id="@+id/progressBar_signin"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
