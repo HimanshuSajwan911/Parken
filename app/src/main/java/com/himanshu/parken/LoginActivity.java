@@ -1,24 +1,17 @@
 package com.himanshu.parken;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PatternMatcher;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.himanshu.parken.core.UserProfileActivity;
 
@@ -43,12 +36,12 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.progressBar_signin);
 
-        Button btSignin = findViewById(R.id.button_signin_signin);
-        btSignin.setOnClickListener(view -> signinUser());
+        Button btSignIn = findViewById(R.id.button_signin_signin);
+        btSignIn.setOnClickListener(view -> signInUser());
 
     }
 
-    private void signinUser(){
+    private void signInUser(){
 
         String email = etEmail.getText().toString();
         String password = etPassword.getText().toString();
@@ -77,11 +70,14 @@ public class LoginActivity extends AppCompatActivity {
             if(task.isSuccessful()){
                 Intent intent = new Intent(LoginActivity.this, UserProfileActivity.class);
                 startActivity(intent);
+                finish();
             }
             else{
                 Toast.makeText(LoginActivity.this, "incorrect email or password!", Toast.LENGTH_SHORT).show();
             }
+            progressBar.setVisibility(View.INVISIBLE);
         });
+
 
     }
 
