@@ -13,8 +13,8 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Objects;
@@ -24,7 +24,6 @@ public class SignupActivity extends AppCompatActivity {
     private EditText etFirstName, etLastName, etEmail, etPassword, etConfirmPassword, etPhone;
     private ProgressBar progressBar;
     private RadioGroup rgGender;
-    private RadioButton rbGender;
     private FirebaseAuth mAuth;
 
 
@@ -64,7 +63,7 @@ public class SignupActivity extends AppCompatActivity {
         String gender;
 
         int selectedGenderId = rgGender.getCheckedRadioButtonId();
-        rbGender = findViewById(selectedGenderId);
+        RadioButton rbGender = findViewById(selectedGenderId);
 
         if (TextUtils.isEmpty(firstName)) {
             etFirstName.setError("First name required!");
@@ -81,7 +80,7 @@ public class SignupActivity extends AppCompatActivity {
             etEmail.requestFocus();
             return;
         }
-        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             etEmail.setError("Enter a valid Email!");
             etEmail.requestFocus();
             return;
@@ -91,7 +90,7 @@ public class SignupActivity extends AppCompatActivity {
             etPassword.requestFocus();
             return;
         }
-        if(password.length() < 6){
+        if (password.length() < 6) {
             etPassword.setError("Password length must be at least 6!");
             etPassword.requestFocus();
             return;
@@ -101,7 +100,7 @@ public class SignupActivity extends AppCompatActivity {
             etConfirmPassword.requestFocus();
             return;
         }
-        if(!TextUtils.equals(password, confirmPassword)){
+        if (!TextUtils.equals(password, confirmPassword)) {
             etConfirmPassword.setError("Confirm password not matching with password!");
             etConfirmPassword.requestFocus();
             return;
@@ -121,11 +120,11 @@ public class SignupActivity extends AppCompatActivity {
                     .addOnCompleteListener(SignupActivity.this, task -> {
                         if (task.isSuccessful()) {
                             User user = new User(firstName, lastName, email, gender, phone, password);
-                            FirebaseUser fbUser = mAuth.getCurrentUser();
+                            //FirebaseUser fbUser = mAuth.getCurrentUser();
                             //fbUser.sendEmailVerification();
 
                             FirebaseDatabase.getInstance().getReference("Users")
-                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
                                     .setValue(user).addOnCompleteListener(task1 -> {
                                         if (task1.isSuccessful()) {
                                             Toast.makeText(SignupActivity.this, "User created successfully", Toast.LENGTH_SHORT).show();
