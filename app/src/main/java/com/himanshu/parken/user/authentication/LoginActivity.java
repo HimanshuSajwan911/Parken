@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,6 +24,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etEmail, etPassword;
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;
+    private TextView tvForgotPassword, tvSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +36,17 @@ public class LoginActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.editText_signin_email);
         etPassword = findViewById(R.id.editText_signin_password);
 
+        tvForgotPassword = findViewById(R.id.textView_signin_forgot_password);
+        tvSignUp = findViewById(R.id.textView_signin_signup);
+
         mAuth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.progressBar_signin);
 
         Button btSignIn = findViewById(R.id.button_signin_signin);
         btSignIn.setOnClickListener(view -> signInUser());
+
+        tvForgotPassword.setOnClickListener(view -> forgotPassword());
+        tvSignUp.setOnClickListener(view -> signUp());
 
     }
 
@@ -82,4 +90,13 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    private void forgotPassword(){
+        Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+        startActivity(intent);
+    }
+
+    private void signUp(){
+        Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
+        startActivity(intent);
+    }
 }
