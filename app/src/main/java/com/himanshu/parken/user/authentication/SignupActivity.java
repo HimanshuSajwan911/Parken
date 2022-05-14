@@ -1,4 +1,4 @@
-package com.himanshu.parken;
+package com.himanshu.parken.user.authentication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.himanshu.parken.R;
+import com.himanshu.parken.User;
 
 import java.util.Objects;
 

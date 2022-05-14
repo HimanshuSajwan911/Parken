@@ -1,4 +1,4 @@
-package com.himanshu.parken;
+package com.himanshu.parken.user.authentication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.himanshu.parken.R;
 import com.himanshu.parken.core.UserProfileActivity;
 
 import java.util.Objects;
