@@ -1,4 +1,4 @@
-package com.himanshu.parken.core;
+package com.himanshu.parken.user;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,7 +22,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.himanshu.parken.R;
-import com.himanshu.parken.user.User;
 import com.himanshu.parken.user.authentication.LoginActivity;
 
 public class UserProfileActivity extends AppCompatActivity {
