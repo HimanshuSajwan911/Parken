@@ -15,9 +15,10 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.database.FirebaseDatabase;
 import com.himanshu.parken.R;
-import com.himanshu.parken.User;
+import com.himanshu.parken.user.User;
 
 import java.util.Objects;
 
@@ -119,23 +120,35 @@ public class SignupActivity extends AppCompatActivity {
             progressBar.setVisibility(View.VISIBLE);
 
             mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(SignupActivity.this, task -> {
-                        if (task.isSuccessful()) {
+                    .addOnCompleteListener(SignupActivity.this, taskCreateUser -> {
+                        progressBar.setVisibility(View.INVISIBLE);
+
+                        if (taskCreateUser.isSuccessful()) {
                             User user = new User(firstName, lastName, email, gender, phone, password);
                             //FirebaseUser fbUser = mAuth.getCurrentUser();
                             //fbUser.sendEmailVerification();
 
                             FirebaseDatabase.getInstance().getReference("Users")
                                     .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
-                                    .setValue(user).addOnCompleteListener(task1 -> {
-                                        if (task1.isSuccessful()) {
+                                    .setValue(user).addOnCompleteListener(taskAddUserData -> {
+                                        if (taskAddUserData.isSuccessful()) {
                                             Toast.makeText(SignupActivity.this, "User created successfully", Toast.LENGTH_SHORT).show();
                                             Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
                                             startActivity(intent);
+                                            finish();
                                         }
                                     });
+                        } else {
+                            try {
+                                throw Objects.requireNonNull(taskCreateUser.getException());
+                            } catch (FirebaseAuthUserCollisionException existEmail) {
+                                Toast.makeText(this, "A user already exists with this email!", Toast.LENGTH_LONG).show();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Toast.makeText(this, "ERROR: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
                         }
-                        progressBar.setVisibility(View.INVISIBLE);
+
                     });
         }
 
