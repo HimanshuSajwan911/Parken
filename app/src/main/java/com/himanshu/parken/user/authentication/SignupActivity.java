@@ -2,6 +2,7 @@ package com.himanshu.parken.user.authentication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.himanshu.parken.R;
 import com.himanshu.parken.user.User;
@@ -121,30 +123,38 @@ public class SignupActivity extends AppCompatActivity {
 
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(SignupActivity.this, taskCreateUser -> {
-                        progressBar.setVisibility(View.INVISIBLE);
 
                         if (taskCreateUser.isSuccessful()) {
                             User user = new User(firstName, lastName, email, gender, phone, password);
-                            //FirebaseUser fbUser = mAuth.getCurrentUser();
-                            //fbUser.sendEmailVerification();
 
                             FirebaseDatabase.getInstance().getReference("Users")
                                     .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
                                     .setValue(user).addOnCompleteListener(taskAddUserData -> {
                                         if (taskAddUserData.isSuccessful()) {
-                                            Toast.makeText(SignupActivity.this, "User created successfully", Toast.LENGTH_SHORT).show();
+                                            progressBar.setVisibility(View.INVISIBLE);
+                                            FirebaseUser fbUser = mAuth.getCurrentUser();
+                                            Objects.requireNonNull(fbUser).sendEmailVerification();
+                                            Toast.makeText(this, "User created successfully" + "\nAn email verification is sent to you.", Toast.LENGTH_LONG).show();
+
                                             Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
                                             startActivity(intent);
                                             finish();
                                         }
                                     });
                         } else {
+                            progressBar.setVisibility(View.INVISIBLE);
                             try {
                                 throw Objects.requireNonNull(taskCreateUser.getException());
                             } catch (FirebaseAuthUserCollisionException existEmail) {
-                                Toast.makeText(this, "A user already exists with this email!", Toast.LENGTH_LONG).show();
+                                AlertDialog.Builder builder = new AlertDialog.Builder(SignupActivity.this);
+                                builder.setTitle("User already exists");
+                                builder.setMessage(existEmail.getMessage())
+                                        .setCancelable(false)
+                                        .setNeutralButton(android.R.string.ok, (dialog, id) -> dialog.dismiss());
+                                AlertDialog alert = builder.create();
+                                alert.show();
+
                             } catch (Exception e) {
-                                e.printStackTrace();
                                 Toast.makeText(this, "ERROR: " + e.getMessage(), Toast.LENGTH_LONG).show();
                             }
                         }
