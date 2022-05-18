@@ -37,8 +37,8 @@ public class LoginActivity extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).hide();
 
-        etEmail = findViewById(R.id.editText_signin_email);
-        etPassword = findViewById(R.id.editText_signin_password);
+        etEmail = findViewById(R.id.textInputEditText_signin_email);
+        etPassword = findViewById(R.id.textInputEditText_signin_password);
 
         TextView tvForgotPassword = findViewById(R.id.textView_signin_forgot_password);
         TextView tvSignUp = findViewById(R.id.textView_signin_signup);
