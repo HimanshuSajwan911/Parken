@@ -5,7 +5,7 @@
     android:id="@+id/constraintLayout_user_profile_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".core.UserProfileActivity">
+    tools:context=".user.UserProfileActivity">
 
     <TextView
         android:id="@+id/textView_user_profile_title"
@@ -14,9 +14,8 @@
         android:layout_marginTop="24dp"
         android:text="@string/user_profile"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.457"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imageView_user_profile_user_profile_picture"
+        app:layout_constraintStart_toStartOf="@+id/imageView_user_profile_user_profile_picture"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -24,7 +23,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="241dp" />
+        app:layout_constraintGuide_begin="254dp" />
+
+    <TextView
+        android:id="@+id/textView_user_profile_user_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView_user_profile_user_profile_picture"
+        app:layout_constraintStart_toStartOf="@+id/imageView_user_profile_user_profile_picture"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_user_profile_user_profile_picture" />
+
+    <ImageView
+        android:id="@+id/imageView_user_profile_user_profile_picture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:contentDescription="@string/user_profile_picture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_user_profile_title"
+        tools:ignore="ImageContrastCheck"
+        android:src="@drawable/image_user_profile_100x117"/>
 
     <ScrollView
         android:id="@+id/scrollView_user_profile_details"
@@ -44,183 +65,167 @@
             android:layout_height="wrap_content">
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline6"
+                android:id="@+id/guideline_user_profile_left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_begin="20dp" />
 
-            <TextView
-                android:id="@+id/textView_user_profile_first_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:labelFor="@id/editText_user_profile_first_name"
-                android:text="@string/first_name"
-                app:layout_constraintStart_toStartOf="@+id/guideline6"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="SpeakableTextPresentCheck" />
-
-            <EditText
-                android:id="@+id/editText_user_profile_first_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="20dp"
-                android:autofillHints=""
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:labelFor="@id/textView_user_profile_first_name"
-                android:minHeight="48dp"
-                app:layout_constraintEnd_toStartOf="@+id/editText_user_profile_last_name"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/guideline6"
-                app:layout_constraintTop_toBottomOf="@+id/textView_user_profile_first_name"
-                tools:ignore="SpeakableTextPresentCheck" />
-
-            <TextView
-                android:id="@+id/textView_user_profile_last_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/last_name"
-                app:layout_constraintEnd_toStartOf="@+id/guideline7"
-                app:layout_constraintStart_toEndOf="@+id/textView_user_profile_first_name"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="SpeakableTextPresentCheck" />
-
-            <EditText
-                android:id="@+id/editText_user_profile_last_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:autofillHints=""
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:labelFor="@id/textView_user_profile_last_name"
-                android:minHeight="48dp"
-                app:layout_constraintEnd_toStartOf="@+id/guideline7"
-                app:layout_constraintStart_toEndOf="@+id/editText_user_profile_first_name"
-                app:layout_constraintTop_toBottomOf="@+id/textView_user_profile_last_name"
-                tools:ignore="SpeakableTextPresentCheck" />
-
-            <TextView
-                android:id="@+id/textView_user_profile_email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/email"
-                app:layout_constraintStart_toStartOf="@+id/guideline6"
-                app:layout_constraintTop_toBottomOf="@+id/editText_user_profile_first_name" />
-
-            <EditText
-                android:id="@+id/editText_user_profile_email"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:ems="10"
-                android:inputType="textEmailAddress"
-                android:minHeight="48dp"
-                app:layout_constraintEnd_toStartOf="@+id/guideline7"
-                app:layout_constraintStart_toStartOf="@+id/guideline6"
-                app:layout_constraintTop_toBottomOf="@+id/textView_user_profile_email"
-                tools:ignore="SpeakableTextPresentCheck" />
-
-            <TextView
-                android:id="@+id/textView_user_profile_phone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:text="@string/label_phone_number"
-                app:layout_constraintStart_toStartOf="@+id/guideline6"
-                app:layout_constraintTop_toBottomOf="@+id/editText_user_profile_email" />
-
-            <EditText
-                android:id="@+id/editText_user_profile_phone"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="phone"
-                android:minHeight="48dp"
-                app:layout_constraintEnd_toStartOf="@+id/guideline7"
-                app:layout_constraintStart_toStartOf="@+id/guideline6"
-                app:layout_constraintTop_toBottomOf="@+id/textView_user_profile_phone"
-                tools:ignore="SpeakableTextPresentCheck"
-                android:autofillHints="" />
-
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline7"
+                android:id="@+id/guideline_user_profile_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="395dp" />
+                app:layout_constraintGuide_end="20dp" />
 
-            <TextView
-                android:id="@+id/textView_user_profile_gender"
-                android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout_user_profile_first_name"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="21dp"
-                android:text="@string/gender"
-                app:layout_constraintStart_toStartOf="@+id/guideline6"
-                app:layout_constraintTop_toBottomOf="@+id/editText_user_profile_phone" />
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                app:endIconMode="clear_text"
+                app:layout_constraintEnd_toStartOf="@+id/textInputLayout_user_profile_last_name"
+                app:layout_constraintStart_toStartOf="@+id/guideline_user_profile_left"
+                app:layout_constraintTop_toTopOf="parent"
+                app:startIconDrawable="@drawable/ic_baseline_person_24">
 
-            <RadioGroup
-                android:id="@+id/radioGroup_user_profile_radioGroup_gender"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:layout_marginTop="2dp"
-                android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="@+id/guideline6"
-                app:layout_constraintTop_toBottomOf="@+id/textView_user_profile_gender">
-
-                <RadioButton
-                    android:id="@+id/radioButton_user_profile_gender_male"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInputEditText_user_profile_first_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/male" />
+                    android:hint="@string/first_name"
+                    android:textColorHint="#616161"
+                    tools:ignore="TextContrastCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                <RadioButton
-                    android:id="@+id/radioButton_user_profile_gender_female"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout_user_profile_last_name"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                app:endIconMode="clear_text"
+                app:layout_constraintBottom_toBottomOf="@+id/textInputLayout_user_profile_first_name"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_user_profile_right"
+                app:layout_constraintStart_toEndOf="@+id/textInputLayout_user_profile_first_name"
+                app:layout_constraintTop_toTopOf="@+id/textInputLayout_user_profile_first_name"
+                app:startIconDrawable="@drawable/ic_baseline_person_24">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInputEditText_user_profile_last_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:text="@string/female" />
+                    android:hint="@string/last_name"
+                    android:textColorHint="#616161"
+                    tools:ignore="TextContrastCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                <RadioButton
-                    android:id="@+id/radioButton_user_profile_gender_other"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout_user_profile_email"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:endIconMode="clear_text"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_user_profile_right"
+                app:layout_constraintStart_toStartOf="@+id/guideline_user_profile_left"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout_user_profile_first_name"
+                app:startIconDrawable="@drawable/ic_baseline_email_24">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInputEditText_user_profile_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress"
+                    android:textColorHint="#616161"
+                    tools:ignore="TextContrastCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout_user_profile_phone"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:endIconMode="clear_text"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_user_profile_right"
+                app:layout_constraintStart_toStartOf="@+id/guideline_user_profile_left"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout_user_profile_email"
+                app:startIconDrawable="@drawable/ic_baseline_phone_24">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInputEditText_user_profile_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/label_phone_number"
+                    android:inputType="phone"
+                    android:textColorHint="#616161"
+                    tools:ignore="TextContrastCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout_user_profile_gender"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:hint="@string/gender"
+                app:helperText="@string/gender"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_user_profile_right"
+                app:layout_constraintStart_toStartOf="@+id/guideline_user_profile_left"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout_user_profile_phone">
+
+                <RadioGroup
+                    android:id="@+id/radioGroup_user_profile_gender"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_weight="1"
-                    android:text="@string/other" />
-            </RadioGroup>
+                    android:layout_marginTop="2dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_left"
+                    app:layout_constraintTop_toBottomOf="@+id/textView_signup_gender">
+
+                    <RadioButton
+                        android:id="@+id/radioButton_user_profile_gender_male"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/male" />
+
+                    <RadioButton
+                        android:id="@+id/radioButton_user_profile_gender_female"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/female"
+                        tools:layout_editor_absoluteX="114dp"
+                        tools:layout_editor_absoluteY="467dp" />
+
+                    <RadioButton
+                        android:id="@+id/radioButton_user_profile_gender_other"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/other"
+                        tools:layout_editor_absoluteX="212dp"
+                        tools:layout_editor_absoluteY="467dp" />
+                </RadioGroup>
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="56dp"
+                android:layout_marginTop="40dp"
                 android:text="@android:string/ok"
-                app:layout_constraintEnd_toStartOf="@+id/guideline7"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_user_profile_right"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/guideline6"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroup_user_profile_radioGroup_gender" />
+                app:layout_constraintStart_toStartOf="@+id/guideline_user_profile_left"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout_user_profile_gender" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:contentDescription="@string/user_profile_picture"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_user_profile_title"
-        tools:ignore="ImageContrastCheck"
-        tools:srcCompat="@tools:sample/avatars" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
