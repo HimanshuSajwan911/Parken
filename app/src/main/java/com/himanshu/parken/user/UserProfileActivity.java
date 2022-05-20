@@ -5,13 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,6 +43,18 @@ public class UserProfileActivity extends AppCompatActivity {
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         userDataReference = FirebaseDatabase.getInstance().getReference("Users");
+
+        String userId = firebaseUser.getUid();
+        String userIdText = "User ID: " + userId;
+        TextView tvUserId = findViewById(R.id.textView_user_profile_user_id);
+        tvUserId.setText(userIdText);
+        tvUserId.setOnClickListener(view -> {
+            ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clipData = ClipData.newPlainText("UserId", userId);
+            clipboardManager.setPrimaryClip(clipData);
+
+            Toast.makeText(UserProfileActivity.this, "User ID copied.", Toast.LENGTH_SHORT).show();
+        });
 
         progress = new ProgressDialog(this);
         progress.setMessage("Fetching Data");
@@ -103,12 +120,12 @@ public class UserProfileActivity extends AppCompatActivity {
 
         progress.dismiss();
 
-        EditText etFirstName = findViewById(R.id.editText_user_profile_first_name);
-        EditText etLastName = findViewById(R.id.editText_user_profile_last_name);
-        EditText etEmail = findViewById(R.id.editText_user_profile_email);
-        EditText etPhone = findViewById(R.id.editText_user_profile_phone);
+        EditText etFirstName = findViewById(R.id.textInputEditText_user_profile_first_name);
+        EditText etLastName = findViewById(R.id.textInputEditText_user_profile_last_name);
+        EditText etEmail = findViewById(R.id.textInputEditText_user_profile_email);
+        EditText etPhone = findViewById(R.id.textInputEditText_user_profile_phone);
 
-        RadioGroup rgGender = findViewById(R.id.radioGroup_user_profile_radioGroup_gender);
+        RadioGroup rgGender = findViewById(R.id.radioGroup_user_profile_gender);
 
         etFirstName.setText(user.getFirstName());
         etLastName.setText(user.getLastName());
