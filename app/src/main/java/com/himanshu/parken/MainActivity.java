@@ -4,8 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.himanshu.parken.user.UserProfileActivity;
+import com.himanshu.parken.user.authentication.LoginActivity;
+import com.himanshu.parken.user.authentication.SignupActivity;
 
 import java.util.Objects;
 
@@ -16,21 +21,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Objects.requireNonNull(getSupportActionBar()).hide();
 
-        Button buttonSignIn = findViewById(R.id.button_signin);
-        buttonSignIn.setOnClickListener(view -> {
-            Intent intentLogin = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(intentLogin);
-
-        });
-
-        Button buttonSignUp = findViewById(R.id.button_signup);
-        buttonSignUp.setOnClickListener(view -> {
-            Intent intentLogin = new Intent(MainActivity.this, SignupActivity.class);
-            startActivity(intentLogin);
-
-        });
 
     }
 }
