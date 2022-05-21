@@ -9,6 +9,25 @@
     <string name="password">Password</string>
     <string name="enter_email">Enter Email</string>
     <string name="email">Email</string>
+    <string name="male">Male</string>
+    <string name="other">Other</string>
+    <string name="female">Female</string>
+    <string name="gender">Gender</string>
+    <string name="xyz123_abcd_com">xyz123@abcd.com</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="label_phone_number">Phone Number</string>
+    <string name="hint_mobile_number_without_country_code">Mobile Number without country code</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="user_profile">User Profile</string>
+    <string name="user_profile_picture">user profile picture</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="refresh">Refresh</string>
+    <string name="logout">Logout</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="required_star">Required*</string>
 
 
 </resources>
