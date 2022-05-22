@@ -18,18 +18,13 @@
         app:layout_constraintStart_toStartOf="@+id/imageView_user_profile_user_profile_picture"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="254dp" />
-
     <TextView
         android:id="@+id/textView_user_profile_user_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:text="@string/user_id"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="@+id/imageView_user_profile_user_profile_picture"
         app:layout_constraintStart_toStartOf="@+id/imageView_user_profile_user_profile_picture"
         app:layout_constraintTop_toBottomOf="@+id/imageView_user_profile_user_profile_picture" />
@@ -51,13 +46,13 @@
         android:id="@+id/scrollView_user_profile_details"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="20dp"
         android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline4"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/textView_user_profile_user_id">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout_user_profile_details"
