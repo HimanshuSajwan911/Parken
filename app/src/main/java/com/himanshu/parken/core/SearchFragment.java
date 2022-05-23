@@ -67,6 +67,7 @@ public class SearchFragment extends Fragment {
 
     private boolean isPermissionGranted;
     private static Location lastLocation;
+    private static LatLng latLngBooking;
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     private GoogleMap mGoogleMap;
     private LocationRequest locationRequest;
@@ -138,6 +139,8 @@ public class SearchFragment extends Fragment {
                 // Triggered when user click any marker on the map
 
                 Toast.makeText(getActivity(), "going to Booking", Toast.LENGTH_SHORT).show();
+
+                latLngBooking = marker.getPosition();
 
                 Intent intent = new Intent(getActivity(), BookingActivity.class);
                 startActivity(intent);
@@ -328,5 +331,8 @@ public class SearchFragment extends Fragment {
 
     }
 
+    public static LatLng getSelectedLatLng(){
+        return latLngBooking;
+    }
 
 }
