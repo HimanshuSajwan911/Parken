@@ -51,8 +51,14 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.himanshu.parken.R;
 import com.himanshu.parken.core.booking.BookingActivity;
+import com.himanshu.parken.core.parking.ParkingLot;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -74,6 +80,7 @@ public class SearchFragment extends Fragment {
     private FusedLocationProviderClient fusedLocationProviderClient;
     public String bestProvider;
     public LocationManager locationManager;
+    private SupportMapFragment supportMapFragment;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -89,28 +96,18 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        checkLocationPermission();
-
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
-        SupportMapFragment supportMapFragment = (SupportMapFragment) getChildFragmentManager()
+        supportMapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.fragmentContainerView_fragment_search_map);
 
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity());
+        checkLocationPermission();
 
-        assert supportMapFragment != null;
-        supportMapFragment.getMapAsync(new OnMapReadyCallback() {
-            @SuppressLint("MissingPermission")
-            @Override
-            public void onMapReady(@NonNull GoogleMap googleMap) {
-
-                mGoogleMap = googleMap;
-
-                mapReady();
-            }
-        });
-
+        if(isPermissionGranted) {
+            fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity());
+            loadMap();
+        }
 
         return view;
     }
@@ -133,6 +130,8 @@ public class SearchFragment extends Fragment {
 
         //mGoogleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
+        //loadParking();
+
         mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(@NonNull Marker marker) {
@@ -145,18 +144,11 @@ public class SearchFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), BookingActivity.class);
                 startActivity(intent);
 
-                return true;
+                return false;
             }
         });
 
-
-        LatLng latLngDefault = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
-        MarkerOptions markerOptionsDefault = new MarkerOptions();
-        markerOptionsDefault.position(latLngDefault);
-        markerOptionsDefault.title("Your Location");
-        mGoogleMap.addMarker(markerOptionsDefault);
-        CameraUpdate cameraUpdateDefault = CameraUpdateFactory.newLatLngZoom(latLngDefault, 15);
-        mGoogleMap.animateCamera(cameraUpdateDefault);
+        moveToCurrentLocation();
 
         mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
@@ -181,6 +173,31 @@ public class SearchFragment extends Fragment {
         });
     }
 
+
+    private void loadMap(){
+        assert supportMapFragment != null;
+        supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+            @SuppressLint("MissingPermission")
+            @Override
+            public void onMapReady(@NonNull GoogleMap googleMap) {
+
+                mGoogleMap = googleMap;
+                //Places.initialize(getContext(),"@string/API_KEY");
+
+                mapReady();
+            }
+        });
+    }
+
+    private void moveToCurrentLocation(){
+        LatLng latLngDefault = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
+        MarkerOptions markerOptionsDefault = new MarkerOptions();
+        markerOptionsDefault.position(latLngDefault);
+        markerOptionsDefault.title("Your Location");
+        mGoogleMap.addMarker(markerOptionsDefault);
+        CameraUpdate cameraUpdateDefault = CameraUpdateFactory.newLatLngZoom(latLngDefault, 15);
+        mGoogleMap.animateCamera(cameraUpdateDefault);
+    }
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
@@ -251,17 +268,6 @@ public class SearchFragment extends Fragment {
 
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 101) {
-            if (resultCode == RESULT_OK) {
-                Toast.makeText(getActivity(), "now GPS is enabled.", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-    }
 
     @SuppressLint("MissingPermission")
     private void getCurrentUpdate() {
@@ -271,9 +277,9 @@ public class SearchFragment extends Fragment {
             @Override
             public void onLocationResult(@NonNull LocationResult locationResult) {
                 super.onLocationResult(locationResult);
-                //double latitude = locationResult.getLastLocation().getLatitude();
-                //double longitude = locationResult.getLastLocation().getLongitude();
-                //Toast.makeText(getActivity(), "Location " + latitude + " : " + longitude, Toast.LENGTH_SHORT).show();
+                double latitude = locationResult.getLastLocation().getLatitude();
+                double longitude = locationResult.getLastLocation().getLongitude();
+                Toast.makeText(getActivity(), "Location " + latitude + " : " + longitude, Toast.LENGTH_SHORT).show();
             }
         }, Looper.getMainLooper());
     }
@@ -293,7 +299,8 @@ public class SearchFragment extends Fragment {
             @Override
             public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
                 isPermissionGranted = true;
-                //Toast.makeText(getActivity(), "Permission Granted.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Permission Granted.", Toast.LENGTH_SHORT).show();
+                loadMap();
             }
 
             @Override
