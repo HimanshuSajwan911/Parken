@@ -1,4 +1,4 @@
-package com.himanshu.parken.core;
+package com.himanshu.parken.core.map;
 
 import static android.app.Activity.RESULT_OK;
 
