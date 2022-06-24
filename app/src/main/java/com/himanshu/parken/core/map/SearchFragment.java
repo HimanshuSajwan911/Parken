@@ -18,6 +18,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -46,6 +47,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -82,6 +84,8 @@ public class SearchFragment extends Fragment {
     public LocationManager locationManager;
     private SupportMapFragment supportMapFragment;
 
+    private Marker lastClicked;
+
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -104,7 +108,7 @@ public class SearchFragment extends Fragment {
 
         checkLocationPermission();
 
-        if(isPermissionGranted) {
+        if (isPermissionGranted) {
             fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity());
             loadMap();
         }
@@ -130,70 +134,102 @@ public class SearchFragment extends Fragment {
 
         //mGoogleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
-        //loadParking();
+        loadParking();
 
-        mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(@NonNull Marker marker) {
-                // Triggered when user click any marker on the map
+        mGoogleMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(getContext()));
 
-                Toast.makeText(getActivity(), "going to Booking", Toast.LENGTH_SHORT).show();
+        mGoogleMap.setOnInfoWindowClickListener(marker -> {
+            latLngBooking = marker.getPosition();
 
-                latLngBooking = marker.getPosition();
+            Intent intent = new Intent(getActivity(), BookingActivity.class);
+            startActivity(intent);
+        });
 
-                Intent intent = new Intent(getActivity(), BookingActivity.class);
-                startActivity(intent);
-
+        mGoogleMap.setOnMarkerClickListener(marker -> {
+            if (lastClicked != null && lastClicked.equals(marker)) {
+                lastClicked = null;
+                marker.hideInfoWindow();
+                return true;
+            } else {
+                lastClicked = marker;
                 return false;
             }
         });
 
         moveToCurrentLocation();
 
-        mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+        mGoogleMap.setOnMapClickListener(latLng -> {
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(latLng);
+            markerOptions.title(latLng.latitude + " : " + latLng.longitude);
+            //mGoogleMap.clear();
+            mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
+            //mGoogleMap.addMarker(markerOptions);
+
+            Geocoder geocoder = new Geocoder(getActivity());
+
+            try {
+                ArrayList<Address> addressArrayList = (ArrayList<Address>) geocoder.getFromLocation(latLng.latitude, latLng.longitude, 5);
+                Toast.makeText(getActivity(), "Add: " + addressArrayList.get(0).getAddressLine(0), Toast.LENGTH_SHORT).show();
+            } catch (IOException ioException) {
+                Toast.makeText(getActivity(), ioException.getMessage(), Toast.LENGTH_SHORT).show();
+            } catch (Exception exception) {
+                Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+        });
+    }
+
+    private void loadParking() {
+
+        //ArrayList<ParkingLot> parkingLotArrayList = new ArrayList<>();
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Locations");
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onMapClick(@NonNull LatLng latLng) {
-                MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(latLng);
-                markerOptions.title(latLng.latitude + " : " + latLng.longitude);
-                //mGoogleMap.clear();
-                mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
-                //mGoogleMap.addMarker(markerOptions);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot snapshot2 : snapshot.getChildren()) {
+                    ParkingLot parkingLot = snapshot2.getValue(ParkingLot.class);
+                    //parkingLotArrayList.add(parkingLot);
 
-                Geocoder geocoder = new Geocoder(getActivity());
+                    assert parkingLot != null;
+                    LatLng latLng = new LatLng(parkingLot.getLatitude(), parkingLot.getLongitude());
+                    mGoogleMap.addMarker(new MarkerOptions()
+                            .position(latLng)
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.parken_logo_30x53))
+                            .title(latLng.latitude + " : " + latLng.longitude)
 
-                try {
-                    ArrayList<Address> addressArrayList = (ArrayList<Address>) geocoder.getFromLocation(latLng.latitude, latLng.longitude, 5);
-                    Toast.makeText(getActivity(), "Add: " + addressArrayList.get(0).getAddressLine(0), Toast.LENGTH_SHORT).show();
-                } catch (IOException ioException) {
-                    Toast.makeText(getActivity(), ioException.getMessage(), Toast.LENGTH_SHORT).show();
+                    );
+
                 }
-
             }
-        });
-    }
 
-
-    private void loadMap(){
-        assert supportMapFragment != null;
-        supportMapFragment.getMapAsync(new OnMapReadyCallback() {
-            @SuppressLint("MissingPermission")
             @Override
-            public void onMapReady(@NonNull GoogleMap googleMap) {
-
-                mGoogleMap = googleMap;
-                //Places.initialize(getContext(),"@string/API_KEY");
-
-                mapReady();
+            public void onCancelled(@NonNull DatabaseError error) {
+                throw error.toException();
             }
+        });
+
+    }
+
+
+    private void loadMap() {
+        assert supportMapFragment != null;
+        supportMapFragment.getMapAsync(googleMap -> {
+
+            mGoogleMap = googleMap;
+            //Places.initialize(getContext(),"@string/API_KEY");
+
+            mapReady();
         });
     }
 
-    private void moveToCurrentLocation(){
+    private void moveToCurrentLocation() {
         LatLng latLngDefault = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
         MarkerOptions markerOptionsDefault = new MarkerOptions();
         markerOptionsDefault.position(latLngDefault);
-        markerOptionsDefault.title("Your Location");
+        markerOptionsDefault.title("Your are here.");
         mGoogleMap.addMarker(markerOptionsDefault);
         CameraUpdate cameraUpdateDefault = CameraUpdateFactory.newLatLngZoom(latLngDefault, 15);
         mGoogleMap.animateCamera(cameraUpdateDefault);
@@ -338,7 +374,7 @@ public class SearchFragment extends Fragment {
 
     }
 
-    public static LatLng getSelectedLatLng(){
+    public static LatLng getSelectedLatLng() {
         return latLngBooking;
     }
 
