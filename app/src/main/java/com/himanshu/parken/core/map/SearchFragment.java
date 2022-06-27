@@ -1,7 +1,5 @@
 package com.himanshu.parken.core.map;
 
-import static android.app.Activity.RESULT_OK;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -25,6 +23,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -45,7 +44,6 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -61,6 +59,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.himanshu.parken.R;
 import com.himanshu.parken.core.booking.BookingActivity;
 import com.himanshu.parken.core.parking.ParkingLot;
+import com.himanshu.parken.database.OnGetDataListener;
+import com.himanshu.parken.database.ParkingDatabase;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -70,6 +70,7 @@ import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SearchFragment extends Fragment {
 
@@ -83,8 +84,11 @@ public class SearchFragment extends Fragment {
     public String bestProvider;
     public LocationManager locationManager;
     private SupportMapFragment supportMapFragment;
-
+    private ImageView mInfoImage;
+    private Marker mMarker;
     private Marker lastClicked;
+
+    private static HashMap<LatLng, ParkingLot> parkingLotMap;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -93,6 +97,7 @@ public class SearchFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
+        parkingLotMap = new HashMap<>();
         super.onCreate(savedInstanceState);
     }
 
@@ -106,14 +111,33 @@ public class SearchFragment extends Fragment {
         supportMapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.fragmentContainerView_fragment_search_map);
 
+        mInfoImage = view.findViewById(R.id.imageView_fragment_search_info);
+
+        init();
+
+        return view;
+    }
+
+    private void init() {
+
+        mInfoImage.setOnClickListener(v -> {
+            try {
+                if (mMarker.isInfoWindowShown()) {
+                    mMarker.hideInfoWindow();
+                } else {
+                    mMarker.showInfoWindow();
+                }
+            } catch (NullPointerException nullPointerException) {
+                Log.e("TAG", nullPointerException.getMessage());
+            }
+        });
+
         checkLocationPermission();
 
         if (isPermissionGranted) {
             fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity());
             loadMap();
         }
-
-        return view;
     }
 
     @SuppressLint("MissingPermission")
@@ -146,6 +170,7 @@ public class SearchFragment extends Fragment {
         });
 
         mGoogleMap.setOnMarkerClickListener(marker -> {
+            mMarker = marker;
             if (lastClicked != null && lastClicked.equals(marker)) {
                 lastClicked = null;
                 marker.hideInfoWindow();
@@ -173,8 +198,6 @@ public class SearchFragment extends Fragment {
                 Toast.makeText(getActivity(), "Add: " + addressArrayList.get(0).getAddressLine(0), Toast.LENGTH_SHORT).show();
             } catch (IOException ioException) {
                 Toast.makeText(getActivity(), ioException.getMessage(), Toast.LENGTH_SHORT).show();
-            } catch (Exception exception) {
-                Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
         });
@@ -186,21 +209,25 @@ public class SearchFragment extends Fragment {
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Locations");
 
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot snapshot2 : snapshot.getChildren()) {
                     ParkingLot parkingLot = snapshot2.getValue(ParkingLot.class);
-                    //parkingLotArrayList.add(parkingLot);
 
                     assert parkingLot != null;
                     LatLng latLng = new LatLng(parkingLot.getLatitude(), parkingLot.getLongitude());
-                    mGoogleMap.addMarker(new MarkerOptions()
-                            .position(latLng)
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.parken_logo_30x53))
-                            .title(latLng.latitude + " : " + latLng.longitude)
 
+                    parkingLotMap.put(latLng, parkingLot);
+
+                    mMarker = mGoogleMap.addMarker(new MarkerOptions()
+                            .position(latLng)
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.parken_logo_25x44))
+                            .title(latLng.latitude + " : " + latLng.longitude)
                     );
+                    //mMarker.showInfoWindow();
+                    //mMarker.hideInfoWindow();
+
 
                 }
             }
@@ -230,7 +257,7 @@ public class SearchFragment extends Fragment {
         MarkerOptions markerOptionsDefault = new MarkerOptions();
         markerOptionsDefault.position(latLngDefault);
         markerOptionsDefault.title("Your are here.");
-        mGoogleMap.addMarker(markerOptionsDefault);
+        mMarker = mGoogleMap.addMarker(markerOptionsDefault);
         CameraUpdate cameraUpdateDefault = CameraUpdateFactory.newLatLngZoom(latLngDefault, 15);
         mGoogleMap.animateCamera(cameraUpdateDefault);
     }
@@ -376,6 +403,10 @@ public class SearchFragment extends Fragment {
 
     public static LatLng getSelectedLatLng() {
         return latLngBooking;
+    }
+
+    public static ParkingLot getParkingLot(LatLng key){
+        return parkingLotMap.get(key);
     }
 
 }
