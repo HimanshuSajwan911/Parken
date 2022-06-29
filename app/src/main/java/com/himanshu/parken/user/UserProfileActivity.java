@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -42,7 +41,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        userDataReference = FirebaseDatabase.getInstance().getReference("Users");
+        userDataReference = FirebaseDatabase.getInstance().getReference("User");
 
         String userId = firebaseUser.getUid();
         String userIdText = "User ID: " + userId;
@@ -76,12 +75,14 @@ public class UserProfileActivity extends AppCompatActivity {
                     showUserProfile(user);
                 }
                 else{
+                    progress.dismiss();
                     Toast.makeText(UserProfileActivity.this, "some error occurred while fetching user data!", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                progress.dismiss();
                 Toast.makeText(UserProfileActivity.this, "something went wrong!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -92,7 +93,7 @@ public class UserProfileActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_user, menu);
+        menuInflater.inflate(R.menu.activity_user_profile, menu);
 
         return true;
     }
@@ -116,7 +117,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     }
 
-    public void showUserProfile(User user) {
+    public void showUserProfile(@NonNull User user) {
 
         progress.dismiss();
 
