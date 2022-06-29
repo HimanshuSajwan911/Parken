@@ -59,7 +59,7 @@ public class UserProfileFragment extends Fragment {
         etGender.setKeyListener(null);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        userDataReference = FirebaseDatabase.getInstance().getReference("Users");
+        userDataReference = FirebaseDatabase.getInstance().getReference("User");
 
         String userId = firebaseUser.getUid();
         String userIdText = "User ID: " + userId;
@@ -96,12 +96,14 @@ public class UserProfileFragment extends Fragment {
                 if (user != null) {
                     showUserProfile(user);
                 } else {
+                    progress.dismiss();
                     Toast.makeText(getActivity(), "some error occurred while fetching user data!", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                progress.dismiss();
                 Toast.makeText(getActivity(), "something went wrong!", Toast.LENGTH_SHORT).show();
             }
         });

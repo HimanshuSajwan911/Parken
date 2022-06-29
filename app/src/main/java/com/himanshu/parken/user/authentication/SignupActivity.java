@@ -128,7 +128,7 @@ public class SignupActivity extends AppCompatActivity {
                     if (taskCreateUser.isSuccessful()) {
                         User user = new User(firstName, lastName, email, gender, phone, password);
 
-                        FirebaseDatabase.getInstance().getReference("Users")
+                        FirebaseDatabase.getInstance().getReference("User")
                                 .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
                                 .setValue(user).addOnCompleteListener(taskAddUserData -> {
                                     if (taskAddUserData.isSuccessful()) {
