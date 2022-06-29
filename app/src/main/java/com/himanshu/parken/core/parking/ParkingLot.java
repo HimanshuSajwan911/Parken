@@ -7,50 +7,50 @@ public class ParkingLot {
     public static final Boolean PARKING_TAKEN = true;
     public static final Boolean PARKING_AVAILABLE = false;
 
-    private int LotCount;
-    private HashMap<String, Boolean> Lots;
-    private double Latitude, Longitude;
+    private int lotCount;
+    private HashMap<String, Lot> lots;
+    private double latitude, longitude;
 
     public ParkingLot(){
 
     }
 
-    public ParkingLot(int lotCount, HashMap<String, Boolean> lots, double latitude, double longitude, String lt) {
-        LotCount = lotCount;
-        Lots = lots;
-        Latitude = latitude;
-        Longitude = longitude;
+    public ParkingLot(double latitude, double longitude, int lotCount, HashMap<String, Lot> lots) {
+        this.lotCount = lotCount;
+        this.lots = lots;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public int getLotCount() {
-        return LotCount;
+        return lotCount;
     }
 
     public void setLotCount(int lotCount) {
-        LotCount = lotCount;
+        this.lotCount = lotCount;
     }
 
-    public HashMap<String, Boolean> getLots() {
-        return Lots;
+    public HashMap<String, Lot> getLots() {
+        return lots;
     }
 
-    public void setLots(HashMap<String, Boolean> lots) {
-        Lots = lots;
+    public void setLots(HashMap<String, Lot> lots) {
+        this.lots = lots;
     }
 
     public double getLatitude() {
-        return Latitude;
+        return latitude;
     }
 
     public void setLatitude(double latitude) {
-        Latitude = latitude;
+        this.latitude = latitude;
     }
 
     public double getLongitude() {
-        return Longitude;
+        return longitude;
     }
 
     public void setLongitude(double longitude) {
-        Longitude = longitude;
+        this.longitude = longitude;
     }
 }
