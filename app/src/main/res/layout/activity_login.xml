@@ -7,7 +7,7 @@
     tools:context=".user.authentication.LoginActivity">
 
     <ImageView
-        android:id="@+id/imageView_signin_logo"
+        android:id="@+id/imageView_sign_in_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
@@ -28,7 +28,7 @@
         app:layout_constraintGuide_begin="247dp" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout_signin_email"
+        android:id="@+id/textInputLayout_sign_in_email"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
         app:startIconDrawable="@drawable/ic_baseline_person_24">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textInputEditText_signin_email"
+            android:id="@+id/textInputEditText_sign_in_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/email"
@@ -54,7 +54,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout_signin_password"
+        android:id="@+id/textInputLayout_sign_in_password"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_signin_email"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_sign_in_email"
         app:startIconDrawable="@drawable/ic_baseline_lock_24">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -81,7 +81,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/button_signin_signin"
+        android:id="@+id/button_sign_in_sign_in"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
@@ -96,24 +96,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_signin_password"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_sign_in_password"
         tools:ignore="DuplicateSpeakableTextCheck" />
 
     <TextView
-        android:id="@+id/textView_signin_title"
+        android:id="@+id/textView_sign_in_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/sign_in"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
-        app:layout_constraintEnd_toEndOf="@+id/imageView_signin_logo"
-        app:layout_constraintStart_toStartOf="@+id/imageView_signin_logo"
-        app:layout_constraintTop_toBottomOf="@+id/imageView_signin_logo"
+        app:layout_constraintEnd_toEndOf="@+id/imageView_sign_in_logo"
+        app:layout_constraintStart_toStartOf="@+id/imageView_sign_in_logo"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_sign_in_logo"
         app:layout_constraintVertical_bias="0.0" />
 
     <ProgressBar
-        android:id="@+id/progressBar_signin"
+        android:id="@+id/progressBar_sign_in"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -124,7 +124,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView_signin_forgot_password"
+        android:id="@+id/textView_sign_in_forgot_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -134,11 +134,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.215"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_signin_signin"
+        app:layout_constraintTop_toBottomOf="@+id/button_sign_in_sign_in"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/textView_signin_no_account"
+        android:id="@+id/textView_sign_in_no_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/don_t_have_an_account"
@@ -146,18 +146,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.321"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_signin_forgot_password"
+        app:layout_constraintTop_toBottomOf="@+id/textView_sign_in_forgot_password"
         app:layout_constraintVertical_bias="0.709" />
 
     <TextView
-        android:id="@+id/textView_signin_signup"
+        android:id="@+id/textView_sign_in_sign_up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sign_up"
         android:textColor="#066DDF"
-        app:layout_constraintBottom_toBottomOf="@+id/textView_signin_no_account"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_sign_in_no_account"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.04"
-        app:layout_constraintStart_toEndOf="@+id/textView_signin_no_account"
-        app:layout_constraintTop_toTopOf="@+id/textView_signin_no_account" />
+        app:layout_constraintStart_toEndOf="@+id/textView_sign_in_no_account"
+        app:layout_constraintTop_toTopOf="@+id/textView_sign_in_no_account" />
 </androidx.constraintlayout.widget.ConstraintLayout>
